@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">News App</string>
+    <string name="deskripsi">deskripsi</string>
+    <string name="username">username</string>
+    <string name="password">Password</string>
+    <string name="inpassword">Masukkan Password anda</string>
+    <string name="inusername">Masukkan username anda</string>
+    <string name="tittleawal">Lets Get you in!</string>
+    <string name="login">Login</string>
+</resources>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/_16sdp"
+    android:background="@color/white"
+    tools:context=".ui.LoginActivity">
+
+    <ImageView
+        android:contentDescription="@string/deskripsi"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_100sdp"
+        android:src="@drawable/logouniv"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_gravity="center"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/_6sdp"
+        android:fontFamily="@font/montserrat_bold"
+        android:text="@string/tittleawal"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_20ssp" />
+
+    <TextView
+        android:layout_marginBottom="@dimen/_70sdp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/_6sdp"
+        android:fontFamily="@font/montserrat"
+        android:text="@string/tittleawal"
+        android:textSize="@dimen/_12ssp" />
+    <TextView
+        android:textSize="@dimen/_12ssp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/username"
+        android:fontFamily="@font/montserrat"
+        android:textColor="@color/black"
+        android:layout_marginBottom="@dimen/_6sdp"/>
+    <EditText
+        android:id="@+id/edt_username"
+        android:textSize="@dimen/_12ssp"
+        android:hint="@string/inusername"
+        android:drawablePadding="@dimen/_10sdp"
+        android:padding="@dimen/_12sdp"
+        android:ems="10"
+        android:fontFamily="@font/montserrat"
+        android:drawableStart="@drawable/ic_baseline_person_outline_24"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_edt"/>
+    <TextView
+        android:layout_marginTop="@dimen/_15sdp"
+        android:textSize="@dimen/_12ssp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/password"
+        android:textColor="@color/black"
+        android:layout_marginBottom="@dimen/_6sdp"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:passwordToggleEnabled="true"
+        app:hintEnabled="false">
+        <EditText
+            android:id="@+id/edt_password"
+            android:inputType="textPassword"
+            android:textSize="@dimen/_12ssp"
+            android:hint="@string/inpassword"
+            android:drawablePadding="@dimen/_10sdp"
+            android:padding="@dimen/_12sdp"
+            android:ems="10"
+            android:fontFamily="@font/montserrat"
+            android:drawableStart="@drawable/ic_baseline_lock_open_24"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_edt"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/btn_login"
+        android:textColor="@color/black"
+        android:background="@drawable/card_button_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_marginBottom="@dimen/_8sdp"
+        android:text="@string/login"/>
+
+</LinearLayout>
