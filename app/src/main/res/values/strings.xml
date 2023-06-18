@@ -10,4 +10,11 @@
     <string name="news">Berita Terkini</string>
     <string name="search">Search</string>
     <string name="newsdes">Menyediakan berita terlengkap</string>
+    <string name="portal">Portal Universitas</string>
+    <string name="edit">Ubah</string>
+    <string name="hapus">Hapus</string>
+    <string name="judul">Judul</string>
+    <string name="cover">Cover</string>
+    <string name="time">waktu publish</string>
+    <string name="tambah">Tambahkan berita baru</string>
 </resources>

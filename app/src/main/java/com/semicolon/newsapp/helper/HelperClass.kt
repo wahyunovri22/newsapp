@@ -5,6 +5,7 @@ import android.os.Build
 import android.view.View
 import java.text.ParseException
 import java.text.SimpleDateFormat
+import java.util.Calendar
 
 class HelperClass {
 
@@ -31,5 +32,12 @@ class HelperClass {
         }
 
         return hasil
+    }
+
+    fun getTimeNow(): String {
+        val c = Calendar.getInstance()
+        val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
+
+        return sdf.format(c.time)
     }
 }

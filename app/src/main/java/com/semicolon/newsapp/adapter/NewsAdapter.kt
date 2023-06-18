@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.semicolon.newsapp.MainActivity
 import com.semicolon.newsapp.databinding.RowNewsBinding
 import com.semicolon.newsapp.helper.HelperClass
 import com.semicolon.newsapp.model.NewsItem
@@ -24,12 +25,16 @@ class NewsAdapter(var context: Context, var list:ArrayList<NewsItem>):RecyclerVi
         holder.bind(list[position])
     }
 
-    class Holder(private val binding:RowNewsBinding):RecyclerView.ViewHolder(binding.root){
+   inner class Holder(private val binding:RowNewsBinding):RecyclerView.ViewHolder(binding.root){
         fun bind(data:NewsItem){
             binding.tvTitle.text = data.judul
             binding.tvUsername.text = data.userinput
             binding.tvDate.text = HelperClass().convertDate(data.tanggal?:"")
             Picasso.get().load(data.cover).into(binding.imgCover)
+
+            binding.root.setOnClickListener {
+                (context as MainActivity).goToDetail(data)
+            }
         }
     }
 }

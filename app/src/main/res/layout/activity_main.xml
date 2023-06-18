@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,40 +8,55 @@
     android:padding="@dimen/_14sdp"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/news"
-        android:fontFamily="@font/montserrat"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:textSize="@dimen/_20ssp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/newsdes"
-        android:fontFamily="@font/montserrat"
-        android:textColor="@color/black"
-        android:textSize="@dimen/_11ssp"/>
-
-    <EditText
-        android:hint="@string/search"
-        android:drawableEnd="@drawable/baseline_close_24"
-        android:textSize="@dimen/_11ssp"
-        android:drawablePadding="@dimen/_14sdp"
-        android:fontFamily="@font/montserrat"
-        android:drawableStart="@drawable/baseline_search_24"
-        android:padding="@dimen/_11sdp"
-        android:background="@drawable/bg_search"
-        android:layout_marginVertical="@dimen/_35sdp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_news"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:listitem="@layout/row_news"/>
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/news"
+            android:fontFamily="@font/montserrat"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="@dimen/_20ssp"/>
 
-</LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/newsdes"
+            android:fontFamily="@font/montserrat"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_11ssp"/>
+
+        <EditText
+            android:hint="@string/search"
+            android:drawableEnd="@drawable/baseline_close_24"
+            android:textSize="@dimen/_11ssp"
+            android:drawablePadding="@dimen/_14sdp"
+            android:fontFamily="@font/montserrat"
+            android:drawableStart="@drawable/baseline_search_24"
+            android:padding="@dimen/_11sdp"
+            android:background="@drawable/bg_search"
+            android:layout_marginVertical="@dimen/_35sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_news"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/row_news"/>
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/btn_add"
+        android:src="@drawable/baseline_add_24"
+        android:contentDescription="@string/deskripsi"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_width="@dimen/_43sdp"
+        android:layout_height="@dimen/_43sdp"
+        android:background="@drawable/circle_add"/>
+
+</RelativeLayout>

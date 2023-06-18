@@ -1,6 +1,8 @@
 package com.semicolon.newsapp.model
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
 data class ResponseNews(
 
@@ -10,7 +12,7 @@ data class ResponseNews(
 	@field:SerializedName("news")
 	val news: ArrayList<NewsItem>? = null
 )
-
+@Parcelize
 data class NewsItem(
 
 	@field:SerializedName("cover")
@@ -30,4 +32,4 @@ data class NewsItem(
 
 	@field:SerializedName("tanggal")
 	val tanggal: String? = null
-)
+):Parcelable
