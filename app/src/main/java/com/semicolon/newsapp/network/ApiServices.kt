@@ -35,4 +35,14 @@ interface ApiServices {
         @Part("userinput") user:RequestBody,
         @Part photo: MultipartBody.Part
     ):Call<ActionModel>
+
+    @Multipart
+    @POST(Config.UPDATENEWS)
+    fun updateNews(
+        @Part("id") id:RequestBody,
+        @Part("judul") judul:RequestBody,
+        @Part("deskripsi") deskripsi:RequestBody,
+        @Part("cover") cover:RequestBody,
+        @Part photo: MultipartBody.Part?
+    ):Call<ActionModel>
 }

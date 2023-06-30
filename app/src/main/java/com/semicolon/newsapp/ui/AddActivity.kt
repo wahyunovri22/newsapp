@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -15,7 +16,9 @@ import com.semicolon.newsapp.R
 import com.semicolon.newsapp.databinding.ActivityAddBinding
 import com.semicolon.newsapp.helper.HelperClass
 import com.semicolon.newsapp.model.ActionModel
+import com.semicolon.newsapp.model.NewsItem
 import com.semicolon.newsapp.network.ApiConfig
+import com.semicolon.newsapp.network.ApiServices
 import com.squareup.picasso.Picasso
 import es.dmoral.toasty.Toasty
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -34,6 +37,12 @@ class AddActivity : AppCompatActivity() {
     lateinit var binding: ActivityAddBinding
     var namaFile = ""
     lateinit var fileCover: File
+    companion object {
+        const val DATA = "data"
+    }
+    private var uri: NewsItem? = null
+    var id = ""
+    lateinit var apiServices: Call<ActionModel>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +59,14 @@ class AddActivity : AppCompatActivity() {
         HelperClass().hideBar(this)
         permission()
 
+        uri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getParcelableExtra(DetailActivity.DATA,NewsItem::class.java)
+        } else {
+            intent.getParcelableExtra(DetailActivity.DATA)
+        }
+
+        if (uri != null) setData()
+
         mainButton()
     }
 
@@ -57,7 +74,7 @@ class AddActivity : AppCompatActivity() {
         binding.edtTime.setText(HelperClass().getTimeNow())
         binding.btnAdd.setOnClickListener {
             if (validation()) {
-                addNews()
+                if (uri != null) updateNews() else addNews()
             }
         }
         binding.imgCover.setOnClickListener {
@@ -67,6 +84,19 @@ class AddActivity : AppCompatActivity() {
         binding.imgDelete.setOnClickListener {
             deletePhoto()
         }
+    }
+
+    private fun setData(){
+        binding.btnAdd.text = "Edit Berita"
+        id = uri?.id?:""
+        namaFile = uri?.cover?:""
+        fileCover = File("")
+        binding.edtJudul.setText(uri?.judul?:"")
+        binding.edtDeskripsi.setText(uri?.deskripsi?:"")
+
+        Picasso.get().load(uri?.cover)
+            .error(R.drawable.ic_launcher_background)
+            .into(binding.imgCover)
     }
 
     private fun validation(): Boolean {
@@ -115,6 +145,62 @@ class AddActivity : AppCompatActivity() {
                             val returnIntent = Intent()
                             setResult(RESULT_OK, returnIntent)
                             finish()
+                        }else{
+                            Toasty.error(
+                                this@AddActivity,
+                                response.body()?.pesan ?: "",
+                                Toasty.LENGTH_SHORT
+                            ).show()
+                            val returnIntent = Intent()
+                            setResult(RESULT_OK, returnIntent)
+                            finish()
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<ActionModel>, t: Throwable) {
+                    dialog.dismiss()
+                    Toasty.error(this@AddActivity, t.message.toString(), Toasty.LENGTH_SHORT, true)
+                        .show()
+                }
+            })
+    }
+
+    private fun updateNews() {
+        val judul = RequestBody.create("text/plain".toMediaTypeOrNull(), binding.edtJudul.text.toString())
+        val deskripsi = RequestBody.create("text/plain".toMediaTypeOrNull(), binding.edtDeskripsi.text.toString())
+        val id = RequestBody.create("text/plain".toMediaTypeOrNull(), id)
+        val cover = RequestBody.create("text/plain".toMediaTypeOrNull(), namaFile)
+
+        apiServices = if (File(fileCover.path).exists()){
+            val requestFile = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), fileCover)
+            val body = MultipartBody.Part.createFormData("uploaded_file", fileCover.name, requestFile)
+            ApiConfig.getInstanceRetrofit().updateNews(id,judul, deskripsi, cover, body)
+        }else{
+            ApiConfig.getInstanceRetrofit().updateNews(id,judul, deskripsi, cover, null)
+        }
+
+        val dialog = ProgressDialog.show(this, "Loading ...", "", true)
+        apiServices.enqueue(object : Callback<ActionModel> {
+                override fun onResponse(call: Call<ActionModel>, response: Response<ActionModel>) {
+                    dialog.dismiss()
+                    if (response.isSuccessful) {
+                        if (response.body()?.kode == 1){
+                            deletePhoto()
+                            Toasty.info(
+                                this@AddActivity,
+                                response.body()?.pesan ?: "",
+                                Toasty.LENGTH_SHORT
+                            ).show()
+                            val returnIntent = Intent()
+                            setResult(RESULT_OK, returnIntent)
+                            finish()
+                        }else{
+                            Toasty.error(
+                                this@AddActivity,
+                                response.body()?.pesan ?: "",
+                                Toasty.LENGTH_SHORT
+                            ).show()
                         }
                     }
                 }

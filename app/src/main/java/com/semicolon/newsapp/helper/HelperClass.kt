@@ -3,6 +3,8 @@ package com.semicolon.newsapp.helper
 import android.app.Activity
 import android.os.Build
 import android.view.View
+import com.google.gson.Gson
+import com.semicolon.newsapp.model.LoginModel
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -39,5 +41,16 @@ class HelperClass {
         val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
 
         return sdf.format(c.time)
+    }
+
+    fun saveDataLogin(pref: SharedPref,data:LoginModel){
+        pref.saveBoolean(pref.LOGIN,true)
+        val json = Gson().toJson(data)
+        pref.saveString(pref.DATALOGIN,json)
+    }
+
+    fun getDataLogin(pref: SharedPref):LoginModel{
+        val json = pref.getDataLogin()
+        return  Gson().fromJson(json, LoginModel::class.java)
     }
 }

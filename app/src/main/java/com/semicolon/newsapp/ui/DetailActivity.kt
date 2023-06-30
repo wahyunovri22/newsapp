@@ -7,12 +7,14 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.MenuItem
 import android.view.MenuItem.OnMenuItemClickListener
+import android.view.View
 import android.view.WindowManager
 import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
 import com.semicolon.newsapp.R
 import com.semicolon.newsapp.databinding.ActivityDetailBinding
 import com.semicolon.newsapp.helper.HelperClass
+import com.semicolon.newsapp.helper.SharedPref
 import com.semicolon.newsapp.model.ActionModel
 import com.semicolon.newsapp.model.NewsItem
 import com.semicolon.newsapp.network.ApiConfig
@@ -31,6 +33,8 @@ class DetailActivity:AppCompatActivity() {
 
     lateinit var binding:ActivityDetailBinding
     lateinit var id:String
+    private var uri:NewsItem? = null
+    lateinit var pref: SharedPref
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,9 +46,10 @@ class DetailActivity:AppCompatActivity() {
     private fun main(){
         supportActionBar?.hide()
         window.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+        pref = SharedPref(this)
 
-        val uri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        uri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             intent.getParcelableExtra(DATA,NewsItem::class.java)
         } else {
             intent.getParcelableExtra(DATA)
@@ -65,6 +70,10 @@ class DetailActivity:AppCompatActivity() {
         binding.btnMore.setOnClickListener {
             showMenu()
         }
+
+        if (HelperClass().getDataLogin(pref).user?.role != "admin"){
+            binding.btnMore.visibility = View.GONE
+        }
     }
 
     private fun showMenu(){
@@ -77,7 +86,7 @@ class DetailActivity:AppCompatActivity() {
             PopupMenu.OnMenuItemClickListener {
             override fun onMenuItemClick(menu: MenuItem): Boolean {
                 if (menu.title == "Ubah"){
-                    Toasty.info(this@DetailActivity,"${menu.title}",Toasty.LENGTH_SHORT,true).show()
+                    gotoUpdate()
                 }else{
                     delete()
                 }
@@ -85,6 +94,12 @@ class DetailActivity:AppCompatActivity() {
             }
         })
         popupMenu.show()
+    }
+
+    private fun gotoUpdate(){
+        val i = Intent(this,AddActivity::class.java)
+        i.putExtra(AddActivity.DATA,uri)
+        startActivityForResult(i,100)
     }
 
     private fun delete(){
@@ -105,5 +120,16 @@ class DetailActivity:AppCompatActivity() {
                 Toasty.error(this@DetailActivity,t.message.toString(),Toasty.LENGTH_SHORT).show()
             }
         })
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 100) {
+            if (resultCode == RESULT_OK) {
+                val returnIntent = Intent()
+                setResult(RESULT_OK, returnIntent)
+                finish()
+            }
+        }
     }
 }

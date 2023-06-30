@@ -8,6 +8,15 @@
     android:padding="@dimen/_14sdp"
     android:orientation="vertical">
 
+    <ImageView
+        android:contentDescription="@string/deskripsi"
+        android:id="@+id/img_account"
+        android:layout_width="@dimen/_38sdp"
+        android:layout_height="@dimen/_38sdp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/baseline_account_circle_24"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -30,6 +39,7 @@
             android:textSize="@dimen/_11ssp"/>
 
         <EditText
+            android:id="@+id/edt_search"
             android:hint="@string/search"
             android:drawableEnd="@drawable/baseline_close_24"
             android:textSize="@dimen/_11ssp"

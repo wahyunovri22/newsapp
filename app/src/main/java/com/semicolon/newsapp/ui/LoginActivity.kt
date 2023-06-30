@@ -11,6 +11,7 @@ import com.semicolon.newsapp.MainActivity
 import com.semicolon.newsapp.R
 import com.semicolon.newsapp.databinding.ActivityLoginBinding
 import com.semicolon.newsapp.helper.HelperClass
+import com.semicolon.newsapp.helper.SharedPref
 import com.semicolon.newsapp.model.LoginModel
 import com.semicolon.newsapp.network.ApiConfig
 import es.dmoral.toasty.Toasty
@@ -22,6 +23,7 @@ import retrofit2.Response
 class LoginActivity : AppCompatActivity() {
 
     lateinit var binding:ActivityLoginBinding
+    lateinit var pref: SharedPref
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +37,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun mainButton(){
+        pref = SharedPref(this)
         binding.btnLogin.setOnClickListener {
             //Toast.makeText(this,"tombol diklik",Toast.LENGTH_SHORT).show()
             if (validation()){
@@ -66,6 +69,7 @@ class LoginActivity : AppCompatActivity() {
                     dialog.dismiss()
                     val data = response.body()
                     if (data?.error == false){
+                        HelperClass().saveDataLogin(pref,data)
                         Toasty.info(this@LoginActivity, data.message.toString(), Toast.LENGTH_SHORT, true).show()
                         startActivity(Intent(this@LoginActivity,MainActivity::class.java))
                         finish()
